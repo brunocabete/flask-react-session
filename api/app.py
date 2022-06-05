@@ -7,17 +7,20 @@ from models import db, User, Address
 import os
 from marshmallow import Schema, fields
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../client/build', static_url_path='/')
 app.config.from_object(ApplicationConfig)
 bcrypt = Bcrypt(app)
 CORS(app, supports_credentials=True)
 server_session = Session(app)
 db.init_app(app)
 
-@app.route("/")
-def index():
-    return str(session["user_id"])
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return app.send_static_file('index.html')
+    
+@cross_origin()    
 @app.route("/register", methods=["POST"])
 def register_user():
     email = request.json["email"]
@@ -48,7 +51,7 @@ def register_user():
     
     session["user_id"] = new_user.id
     session["user_name"] = new_user.nome
-    return "Ok", 200
+    return jsonify({"status": "ok"}), 200
 
 @app.route("/login", methods=["POST"])
 def login():

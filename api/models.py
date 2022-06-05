@@ -1,17 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from uuid import uuid4
 
 db = SQLAlchemy()
 
-
-# class User(db.Model):
-#     __tablename__ = "users"
-#     id = db.Column(db.String(32), primary_key=True, unique=True)
-#     email = db.Column(db.String(345), unique=True)
-#     password = db.Column(db.Text, nullable=False)
+def get_uuid():
+    return uuid4().hex
 
 class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
+  id = db.Column(db.String(32), primary_key=True,default=get_uuid)
   nome = db.Column(db.String(100), nullable=False)
   cpf = db.Column(db.String(14), nullable=False)
   pis = db.Column(db.String(14), nullable=False)
