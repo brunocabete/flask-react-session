@@ -10,6 +10,20 @@ Meu primeiro contato com Flask (e primeira vez que usei python de fato depois de
 
 Instalar dependencias (em requirements.txt dentro da pasta /api) e rodar python app.py
 
+#### Database
+
+É necessário um banco de dados MySQL rodando.
+As configurações devem ser inseridas em um arquivo .env (exemplo a seguir)
+
+### Exemplo de arquivo .env
+```
+SECRET_KEY=Sua_chave
+DB_NAME=Nome_do_banco_de_dados
+DB_PASS=Senha_do_banco_de_dados
+DB_TABLE=Tabela_do_banco_de_dados
+```
+As informações serão chamadas no arquivo `/api/config.py`
+
 ### Front-end
 
 npm i, e depois npm run build (acessar pela porta do flask) ou npm start (pela porta do react)
