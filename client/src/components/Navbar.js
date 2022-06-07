@@ -1,11 +1,23 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import isLoggedIn from '../helpers/isLoggedIn'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
+import httpClient from '../httpClient'
 
 function Navbar() {
-  const [nome] = useState(isLoggedIn())
+  const [nome] = useState(localStorage.getItem('nome'))
+  const [cpf] = useState(localStorage.getItem('cpf'))
+
+  const navigate = useNavigate()
+
+  const handleLogout = async (e) => {
+    e.preventDefault()
+    const resp = await httpClient.post("/logout")
+    localStorage.clear()
+    navigate('/', {})
+  }
+
+
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
       <div className="container">
@@ -29,6 +41,10 @@ function Navbar() {
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/minha-conta"><span className='text-white'>Olá, {nome}</span> <FontAwesomeIcon icon={faUser} /> </Link>
+                  <span className='text-secondary d-block text-center fs-6'>CPF termina em {cpf}</span>
+                </li>
+                <li className="nav-item ms-5">
+                  <button onClick={handleLogout} className='btn text-white'>Logout <FontAwesomeIcon className='ms-2' icon={faRightFromBracket} /></button>
                 </li>
               </>
             )}

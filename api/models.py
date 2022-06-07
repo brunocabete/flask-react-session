@@ -1,3 +1,4 @@
+from ntpath import join
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from uuid import uuid4
@@ -15,13 +16,6 @@ class User(db.Model):
   email = db.Column(db.String(100), nullable=False)
   senha = db.Column(db.Text, nullable=False)
   criado_em = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  endereco = db.relationship('Address', backref=db.backref('users', lazy=True))
-  id_endereco = db.Column(db.Integer, db.ForeignKey('address.id'), nullable=False)
-
-
-
-class Address(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
   pais = db.Column(db.String(100), nullable=False)
   estado = db.Column(db.String(100), nullable=False)
   municipio = db.Column(db.String(100), nullable=False)
@@ -29,3 +23,17 @@ class Address(db.Model):
   rua = db.Column(db.String(100), nullable=False)
   numero = db.Column(db.String(10), nullable=False)
   complemento = db.Column(db.String(10), nullable=True)
+  # endereco = db.relationship('Address', backref=db.backref('users'), lazy='joined')
+  # id_endereco = db.Column(db.Integer, db.ForeignKey('address.id'), nullable=False)
+
+
+
+# class Address(db.Model):
+#   id = db.Column(db.Integer, primary_key=True)
+#   pais = db.Column(db.String(100), nullable=False)
+#   estado = db.Column(db.String(100), nullable=False)
+#   municipio = db.Column(db.String(100), nullable=False)
+#   cep = db.Column(db.String(20), nullable=False)
+#   rua = db.Column(db.String(100), nullable=False)
+#   numero = db.Column(db.String(10), nullable=False)
+#   complemento = db.Column(db.String(10), nullable=True)

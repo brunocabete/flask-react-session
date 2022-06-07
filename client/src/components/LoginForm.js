@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
 import httpClient from '../httpClient'
+import { useNavigate } from 'react-router-dom'
 
 function LoginForm() {
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
+  let navigate = useNavigate()
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-      const resp = await httpClient.post("http://localhost:5000/login", { email, senha })
-      console.log(resp.data)
-
+      const resp = await httpClient.post("/login", { email, senha })
+      localStorage.clear()
+      localStorage.setItem('nome', resp.data.nome)
+      localStorage.setItem('cpf', resp.data.cpf)
+      navigate('/minha-conta', {})
     } catch (error) {
       if (error.response.status === 401) {
         alert('Por favor confira seus dados de login')

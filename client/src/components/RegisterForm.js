@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import httpClient from '../httpClient'
 
 function RegisterForm() {
@@ -17,13 +18,14 @@ function RegisterForm() {
   const [rua, setRua] = useState("")
   const [numero, setNumero] = useState("")
   const [complemento, setComplemento] = useState("")
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-      const resp = await httpClient.post("http://localhost:5000/register", { email, senha, nome, cpf, pis, pais, estado, municipio, cep, rua, numero, complemento })
+      const resp = await httpClient.post("/register", { email, senha, nome, cpf, pis, pais, estado, municipio, cep, rua, numero, complemento })
       console.log(resp.data)
-
+      navigate('/login', {})
     } catch (error) {
       if (error.response.status === 401) {
         alert('Por favor confira seus dados de login')
